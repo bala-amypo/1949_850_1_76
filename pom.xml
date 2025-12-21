@@ -92,6 +92,12 @@
     <artifactId>mysql-connector-j</artifactId>
     <version>8.0.33</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>7.0.0-M8</version>
+</dependency>
     </dependencies>
 
 	<build>
