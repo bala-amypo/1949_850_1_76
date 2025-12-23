@@ -36,3 +36,5 @@ public class ConflictFlagController {
         return service.getAllFlags();
     }
 }
+
+
