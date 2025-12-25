@@ -1,49 +1,33 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-
-import java.security.Key;
-import java.util.Date;
+import java.util.Base64;
 
 public class JwtTokenProvider {
 
-    private final Key key;
+    private final String secret;
     private final long validityInMs;
 
-    // 🔥 REQUIRED BY TESTS
     public JwtTokenProvider(String secret, long validityInMs) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.secret = secret;
         this.validityInMs = validityInMs;
     }
 
-    public String generateToken(String username) {
-        Date now = new Date();
-        Date expiry = new Date(now.getTime() + validityInMs);
-
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(now)
-                .setExpiration(expiry)
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+    public String generateToken(UserPrincipal user) {
+        String raw = user.getUsername() + ":" + secret;
+        return Base64.getEncoder().encodeToString(raw.getBytes());
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Base64.getDecoder().decode(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (Exception ex) {
             return false;
         }
     }
 
-    public String getUsername(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    public String getUsernameFromToken(String token) {
+        String decoded = new String(Base64.getDecoder().decode(token));
+        return decoded.split(":")[0];
     }
 }

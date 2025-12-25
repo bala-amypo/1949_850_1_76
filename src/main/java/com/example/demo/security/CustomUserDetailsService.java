@@ -1,23 +1,27 @@
 package com.example.demo.security;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-@Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService {
 
-    @Override
-    public UserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException {
+    private final Map<String, UserPrincipal> users = new HashMap<>();
+    private long sequence = 1L;
 
-        // 🔹 In-memory user (tests do not expect DB lookup)
-        return new UserPrincipal(
-                username,
-                "{noop}password",
-                List.of(new SimpleGrantedAuthority("ROLE_USER"))
-        );
+    public UserPrincipal register(String email, String password, String role) {
+
+        UserPrincipal user = new UserPrincipal();
+        user.setId(sequence++);
+        user.setUsername(email);
+        user.setRole(role);
+
+        users.put(email, user);
+        return user;
+    }
+
+    public UserDetails loadUserByUsername(String username) {
+        return users.get(username);
     }
 }

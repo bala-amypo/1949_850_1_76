@@ -1,14 +1,14 @@
 package com.example.demo.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleApiException(ApiException ex) {
-        return ex.getMessage();
+    public ResponseEntity<String> handleApiException(ApiException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
