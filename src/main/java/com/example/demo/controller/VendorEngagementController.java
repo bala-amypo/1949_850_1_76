@@ -2,12 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.VendorEngagementRecord;
 import com.example.demo.service.VendorEngagementService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/engagements")
+@RequestMapping("/engagements")
 public class VendorEngagementController {
 
     private final VendorEngagementService service;
@@ -16,23 +17,30 @@ public class VendorEngagementController {
         this.service = service;
     }
 
+    // CREATE
     @PostMapping
-    public VendorEngagementRecord add(@RequestBody VendorEngagementRecord record) {
-        return service.addEngagement(record);
+    public ResponseEntity<VendorEngagementRecord> create(
+            @RequestBody VendorEngagementRecord record) {
+        return ResponseEntity.ok(service.addEngagement(record));
     }
 
-    @GetMapping("/employee/{id}")
-    public List<VendorEngagementRecord> getByEmployee(@PathVariable Long id) {
-        return service.getEngagementsByEmployee(id);
+    // READ by employee
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<List<VendorEngagementRecord>> byEmployee(
+            @PathVariable Long employeeId) {
+        return ResponseEntity.ok(service.getEngagementsByEmployee(employeeId));
     }
 
-    @GetMapping("/vendor/{id}")
-    public List<VendorEngagementRecord> getByVendor(@PathVariable Long id) {
-        return service.getEngagementsByVendor(id);
+    // READ by vendor
+    @GetMapping("/vendor/{vendorId}")
+    public ResponseEntity<List<VendorEngagementRecord>> byVendor(
+            @PathVariable Long vendorId) {
+        return ResponseEntity.ok(service.getEngagementsByVendor(vendorId));
     }
 
+    // READ all
     @GetMapping
-    public List<VendorEngagementRecord> getAll() {
-        return service.getAllEngagements();
+    public ResponseEntity<List<VendorEngagementRecord>> getAll() {
+        return ResponseEntity.ok(service.getAllEngagements());
     }
 }

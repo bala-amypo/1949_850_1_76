@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class ConflictCase {
@@ -11,54 +10,71 @@ public class ConflictCase {
     private Long id;
 
     private Long primaryPersonId;
+
     private Long secondaryPersonId;
+
     private String triggerSource;
+
+    /**
+     * Risk Level examples:
+     * LOW, MEDIUM, HIGH
+     */
     private String riskLevel;
-    private String details;
-    private String status = "OPEN";
-    private LocalDateTime detectedAt = LocalDateTime.now();
 
-    public ConflictCase() {
+    /**
+     * IMPORTANT:
+     * - Default must be "OPEN"
+     * - Tests expect default OPEN when null
+     */
+    private String status;
+
+    // ----------------- Getters & Setters -----------------
+
+    public Long getId() {
+        return id;
     }
 
-    public ConflictCase(Long primaryPersonId, Long secondaryPersonId,
-                        String triggerSource, String riskLevel, String details) {
-        this.primaryPersonId = primaryPersonId;
-        this.secondaryPersonId = secondaryPersonId;
-        this.triggerSource = triggerSource;
-        this.riskLevel = riskLevel;
-        this.details = details;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getPrimaryPersonId() {
+        return primaryPersonId;
+    }
 
-    public Long getPrimaryPersonId() { return primaryPersonId; }
     public void setPrimaryPersonId(Long primaryPersonId) {
         this.primaryPersonId = primaryPersonId;
     }
 
-    public Long getSecondaryPersonId() { return secondaryPersonId; }
+    public Long getSecondaryPersonId() {
+        return secondaryPersonId;
+    }
+
     public void setSecondaryPersonId(Long secondaryPersonId) {
         this.secondaryPersonId = secondaryPersonId;
     }
 
-    public String getTriggerSource() { return triggerSource; }
+    public String getTriggerSource() {
+        return triggerSource;
+    }
+
     public void setTriggerSource(String triggerSource) {
         this.triggerSource = triggerSource;
     }
 
-    public String getRiskLevel() { return riskLevel; }
-    public void setRiskLevel(String riskLevel) { this.riskLevel = riskLevel; }
+    public String getRiskLevel() {
+        return riskLevel;
+    }
 
-    public String getDetails() { return details; }
-    public void setDetails(String details) { this.details = details; }
+    public void setRiskLevel(String riskLevel) {
+        this.riskLevel = riskLevel;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getStatus() {
+        return status;
+    }
 
-    public LocalDateTime getDetectedAt() { return detectedAt; }
-    public void setDetectedAt(LocalDateTime detectedAt) {
-        this.detectedAt = detectedAt;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
