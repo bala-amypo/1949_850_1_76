@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import org.springframework.stereotype.Service;
 import com.example.demo.exception.ApiException;
 import com.example.demo.model.PersonProfile;
 import com.example.demo.repository.PersonProfileRepository;

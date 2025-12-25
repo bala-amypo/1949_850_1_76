@@ -5,6 +5,8 @@ import com.example.demo.model.RelationshipDeclaration;
 import com.example.demo.repository.PersonProfileRepository;
 import com.example.demo.repository.RelationshipDeclarationRepository;
 import com.example.demo.service.RelationshipDeclarationService;
+import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
