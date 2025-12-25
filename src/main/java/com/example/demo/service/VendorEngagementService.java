@@ -13,3 +13,4 @@ public interface VendorEngagementService {
 
     List<VendorEngagementRecord> getAllEngagements();
 }
+
