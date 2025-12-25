@@ -17,6 +17,7 @@ public class ConflictCaseServiceImpl implements ConflictCaseService {
 
     public ConflictCaseServiceImpl(ConflictCaseRepository repository,ConflictFlagRepository flagRepo) {
         this.repository = repository;
+        this.flagRepo = flagRepo;
     }
 
     @Override
