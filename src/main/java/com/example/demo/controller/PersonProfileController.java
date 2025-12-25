@@ -31,6 +31,11 @@ public class PersonProfileController {
         return service.getAllPersons();
     }
 
+    @PutMapping("/{id}/relationship") 
+    public PersonProfile updateRelationship(@PathVariable Long id, @RequestParam boolean declared) { 
+        return service.updateRelationshipDeclared(id, declared); 
+    }
+    
     @GetMapping("/reference/{referenceId}")
     public PersonProfile getByReference(@PathVariable String referenceId) {
         return service.findByReferenceId(referenceId);
