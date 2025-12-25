@@ -17,6 +17,7 @@
         <spring.boot.version>3.2.5</spring.boot.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <!-- ================= DEPENDENCY MANAGEMENT ================= -->
@@ -61,10 +62,32 @@
             <version>2.5.0</version>
         </dependency>
 
-        <!-- Spring Security (UserDetails only) -->
+        <!-- Spring Security CORE ONLY (for UserDetails interface) -->
+        <!-- DO NOT ADD spring-boot-starter-security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
+        </dependency>
+
+        <!-- ================= JWT (REQUIRED FOR TESTS) ================= -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- ================= TESTING ================= -->
@@ -85,7 +108,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Spring Boot Test (JUnit excluded) -->
+        <!-- Spring Boot Test (JUnit EXCLUDED) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -108,7 +131,7 @@
     <build>
         <plugins>
 
-            <!-- Java Compiler (FIXES SOURCE 5 ERROR) -->
+            <!-- Java 17 Compiler (FIXES source 5 ERROR) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -119,13 +142,13 @@
                 </configuration>
             </plugin>
 
-            <!-- Spring Boot -->
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- TestNG -->
+            <!-- TestNG Surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
