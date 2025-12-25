@@ -23,7 +23,8 @@ public class PersonProfileServiceImpl implements PersonProfileService {
 
     @Override
     public PersonProfile getPersonById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Person not found"));
     }
 
     @Override
@@ -34,20 +35,14 @@ public class PersonProfileServiceImpl implements PersonProfileService {
     @Override
     public PersonProfile updateRelationshipDeclared(Long id, boolean declared) {
         PersonProfile person = getPersonById(id);
-        if (person != null) {
-            person.setRelationshipDeclared(declared);
-            return repository.save(person);
-        }
-        return null;
+        person.setRelationshipDeclared(declared);
+        return repository.save(person);
     }
 
+    // 🔴 THIS FIXES YOUR CURRENT ERROR
     @Override
-    public PersonProfile getPersonByReference(String reference) {
-        return repository.findByReferenceId(reference).orElse(null);
-    }
-
-    @Override
-    public PersonProfile getPersonByEmail(String email) {
-        return repository.findByEmail(email).orElse(null);
+    public PersonProfile getPersonByReference(String referenceId) {
+        return repository.findByReferenceId(referenceId)
+                .orElse(null);
     }
 }

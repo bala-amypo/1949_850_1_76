@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface PersonProfileRepository
-        extends JpaRepository<PersonProfile, Long> {
+public interface PersonProfileRepository extends JpaRepository<PersonProfile, Long> {
 
-    Optional<PersonProfile> findByEmail(String email);
-
+    // 🔴 REQUIRED for lookup & tests
     Optional<PersonProfile> findByReferenceId(String referenceId);
+
+    // Optional — only if used elsewhere
+    Optional<PersonProfile> findByEmail(String email);
 }
