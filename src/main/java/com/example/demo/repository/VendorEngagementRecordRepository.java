@@ -12,8 +12,3 @@ public interface VendorEngagementRecordRepository
 
     List<VendorEngagementRecord> findByVendorId(Long vendorId);
 }
-
-
-
-
-

@@ -8,5 +8,8 @@ import java.util.List;
 public interface ConflictCaseRepository
         extends JpaRepository<ConflictCase, Long> {
 
-    List<ConflictCase> findByPrimaryPersonIdOrSecondaryPersonId(Long p1, Long p2);
+    List<ConflictCase> findByPrimaryPersonIdOrSecondaryPersonId(
+            Long primaryPersonId,
+            Long secondaryPersonId
+    );
 }
