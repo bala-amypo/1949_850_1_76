@@ -2,12 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ConflictCase;
 import com.example.demo.service.ConflictCaseService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/conflict-cases")
+@RequestMapping("/conflict-cases")
 public class ConflictCaseController {
 
     private final ConflictCaseService service;
@@ -16,30 +17,30 @@ public class ConflictCaseController {
         this.service = service;
     }
 
+    // CREATE
     @PostMapping
-    public ConflictCase create(@RequestBody ConflictCase conflictCase) {
-        return service.createCase(conflictCase);
+    public ResponseEntity<ConflictCase> create(@RequestBody ConflictCase c) {
+        return ResponseEntity.ok(service.createCase(c));
     }
 
-    @PutMapping("/{id}/status")
-    public ConflictCase updateStatus(
+    // UPDATE status
+    @PutMapping("/{id}/status/{status}")
+    public ResponseEntity<ConflictCase> updateStatus(
             @PathVariable Long id,
-            @RequestParam String status) {
-        return service.updateCaseStatus(id, status);
+            @PathVariable String status) {
+        return ResponseEntity.ok(service.updateCaseStatus(id, status));
     }
 
-    @GetMapping("/{id}")
-    public ConflictCase getById(@PathVariable Long id) {
-        return service.getCaseById(id);
-    }
-
+    // READ by person
     @GetMapping("/person/{personId}")
-    public List<ConflictCase> getByPerson(@PathVariable Long personId) {
-        return service.getCasesByPerson(personId);
+    public ResponseEntity<List<ConflictCase>> byPerson(
+            @PathVariable Long personId) {
+        return ResponseEntity.ok(service.getCasesByPerson(personId));
     }
 
+    // READ all
     @GetMapping
-    public List<ConflictCase> getAll() {
-        return service.getAllCases();
+    public ResponseEntity<List<ConflictCase>> getAll() {
+        return ResponseEntity.ok(service.getAllCases());
     }
 }
