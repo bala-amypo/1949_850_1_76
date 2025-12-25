@@ -39,10 +39,9 @@ public class PersonProfileServiceImpl implements PersonProfileService {
         return repository.save(person);
     }
 
-    // 🔴 THIS FIXES YOUR CURRENT ERROR
     @Override
-    public PersonProfile getPersonByReference(String referenceId) {
+    public PersonProfile findByReferenceId(String referenceId) {
         return repository.findByReferenceId(referenceId)
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Person not found with referenceId"));
     }
 }
