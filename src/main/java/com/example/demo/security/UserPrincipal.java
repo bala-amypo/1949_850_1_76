@@ -30,10 +30,10 @@ public class UserPrincipal implements UserDetails {
     }
 
     
-    @Override
-    public String toString() {
-        return this.username;
-    }
+    // @Override
+    // public String toString() {
+    //     return this.username;
+    // }
 
     @Override public boolean isAccountNonExpired() { return true; }
     @Override public boolean isAccountNonLocked() { return true; }
