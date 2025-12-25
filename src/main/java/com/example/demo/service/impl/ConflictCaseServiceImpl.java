@@ -11,8 +11,11 @@ import java.util.List;
 public class ConflictCaseServiceImpl implements ConflictCaseService {
 
     private final ConflictCaseRepository repository;
+    private final ConflictFlagRepository flagRepo;
 
-    public ConflictCaseServiceImpl(ConflictCaseRepository repository) {
+
+
+    public ConflictCaseServiceImpl(ConflictCaseRepository repository,ConflictFlagRepository flagRepo) {
         this.repository = repository;
     }
 

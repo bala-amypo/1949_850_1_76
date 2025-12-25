@@ -12,10 +12,13 @@ public class VendorEngagementServiceImpl
         implements VendorEngagementService {
 
     private final VendorEngagementRecordRepository repository;
+    private final PersonProfileRepository personRepo;
+
 
     public VendorEngagementServiceImpl(
-            VendorEngagementRecordRepository repository) {
+            VendorEngagementRecordRepository repository, PersonProfileRepository personRepo) {
         this.repository = repository;
+        this.personRepo = personRepo;
     }
 
     @Override
