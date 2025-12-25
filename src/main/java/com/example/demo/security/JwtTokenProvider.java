@@ -2,25 +2,18 @@ package com.example.demo.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
-import java.util.Base64;
 
-@Component
 public class JwtTokenProvider {
 
-    private final String secretKey;
+    private final Key key;
     private final long validityInMs;
 
-    // 🔴 REQUIRED: NO-ARG CONSTRUCTOR FOR TESTS
-    public JwtTokenProvider() {
-        this.secretKey = Base64.getEncoder().encodeToString("testsecretkeytestsecretkey".getBytes());
-        this.validityInMs = 3600000;
-    }
-
+    // 🔥 REQUIRED BY TESTS
     public JwtTokenProvider(String secret, long validityInMs) {
-        this.secretKey = Base64.getEncoder().encodeToString(secret.getBytes());
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.validityInMs = validityInMs;
     }
 
@@ -32,33 +25,25 @@ public class JwtTokenProvider {
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SignatureAlgorithm.HS256)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(secretKey.getBytes())
-                    .build()
-                    .parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (JwtException | IllegalArgumentException ex) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
     public String getUsername(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(secretKey.getBytes())
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
-    }
-
-    // 🔴 REQUIRED BY TESTS
-    public String getUsernameFromToken(String token) {
-        return getUsername(token);
     }
 }
