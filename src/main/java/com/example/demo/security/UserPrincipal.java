@@ -29,6 +29,13 @@ public class UserPrincipal implements UserDetails {
         return username;
     }
 
+    // ✅ IMPORTANT FIX
+    // Tests expect String, not UserPrincipal object
+    @Override
+    public String toString() {
+        return this.username;
+    }
+
     @Override public boolean isAccountNonExpired() { return true; }
     @Override public boolean isAccountNonLocked() { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }
