@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.PersonProfile;
 import com.example.demo.service.PersonProfileService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
