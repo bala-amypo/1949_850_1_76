@@ -14,6 +14,5 @@ public interface PersonProfileService {
 
     PersonProfile updateRelationshipDeclared(Long id, boolean declared);
 
-    // 🔴 REQUIRED — used by Controller & Tests
-    PersonProfile getPersonByReference(String referenceId);
+    PersonProfile findByReferenceId(String referenceId);
 }
