@@ -39,7 +39,6 @@ public class PersonProfileController {
         return ResponseEntity.ok(service.updateRelationshipDeclared(id, declared));
     }
 
-    // 🔴 REQUIRED BY TESTS
     @GetMapping("/lookup/{ref}")
     public ResponseEntity<PersonProfile> lookup(@PathVariable String ref) {
         return ResponseEntity.ok(service.getPersonByReference(ref));
