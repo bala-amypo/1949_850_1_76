@@ -6,7 +6,7 @@ import com.example.demo.repository.PersonProfileRepository;
 import com.example.demo.service.PersonProfileService;
 
 import java.util.List;
-
+@Service
 public class PersonProfileServiceImpl implements PersonProfileService {
 
     private final PersonProfileRepository repository;
