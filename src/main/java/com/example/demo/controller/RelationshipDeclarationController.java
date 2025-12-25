@@ -25,7 +25,10 @@ public class RelationshipDeclarationController {
     public List<RelationshipDeclaration> getAll() {
         return service.getAllDeclarations();
     }
-
+    @GetMapping("/person/{personId}")
+    public List<RelationshipDeclaration> byPerson(@PathVariable Long personId) {
+        return service.getDeclarationsByPerson(personId);
+    }
     @PutMapping("/{id}/verify")
     public RelationshipDeclaration verify(@PathVariable Long id,
                                           @RequestParam boolean verified) {
