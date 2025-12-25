@@ -17,17 +17,17 @@ public class VendorEngagementController {
     }
 
     @PostMapping
-    public VendorEngagementRecord create(@RequestBody VendorEngagementRecord record) {
+    public VendorEngagementRecord add(@RequestBody VendorEngagementRecord record) {
         return service.addEngagement(record);
     }
 
     @GetMapping("/employee/{id}")
-    public List<VendorEngagementRecord> byEmployee(@PathVariable Long id) {
+    public List<VendorEngagementRecord> getByEmployee(@PathVariable Long id) {
         return service.getEngagementsByEmployee(id);
     }
 
     @GetMapping("/vendor/{id}")
-    public List<VendorEngagementRecord> byVendor(@PathVariable Long id) {
+    public List<VendorEngagementRecord> getByVendor(@PathVariable Long id) {
         return service.getEngagementsByVendor(id);
     }
 

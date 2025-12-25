@@ -17,21 +17,24 @@ public class RelationshipDeclarationController {
     }
 
     @PostMapping
-    public RelationshipDeclaration create(@RequestBody RelationshipDeclaration declaration) {
+    public RelationshipDeclaration declare(@RequestBody RelationshipDeclaration declaration) {
         return service.declareRelationship(declaration);
+    }
+
+    @GetMapping("/person/{personId}")
+    public List<RelationshipDeclaration> getByPerson(@PathVariable Long personId) {
+        return service.getDeclarationsByPerson(personId);
+    }
+
+    @PutMapping("/{id}/verify")
+    public RelationshipDeclaration verify(
+            @PathVariable Long id,
+            @RequestParam boolean verified) {
+        return service.verifyDeclaration(id, verified);
     }
 
     @GetMapping
     public List<RelationshipDeclaration> getAll() {
         return service.getAllDeclarations();
-    }
-    @GetMapping("/person/{personId}")
-    public List<RelationshipDeclaration> byPerson(@PathVariable Long personId) {
-        return service.getDeclarationsByPerson(personId);
-    }
-    @PutMapping("/{id}/verify")
-    public RelationshipDeclaration verify(@PathVariable Long id,
-                                          @RequestParam boolean verified) {
-        return service.verifyDeclaration(id, verified);
     }
 }

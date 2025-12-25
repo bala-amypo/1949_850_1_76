@@ -17,7 +17,7 @@ public class ConflictFlagController {
     }
 
     @PostMapping
-    public ConflictFlag create(@RequestBody ConflictFlag flag) {
+    public ConflictFlag add(@RequestBody ConflictFlag flag) {
         return service.addFlag(flag);
     }
 
@@ -27,7 +27,7 @@ public class ConflictFlagController {
     }
 
     @GetMapping("/case/{caseId}")
-    public List<ConflictFlag> byCase(@PathVariable Long caseId) {
+    public List<ConflictFlag> getByCase(@PathVariable Long caseId) {
         return service.getFlagsByCase(caseId);
     }
 
@@ -36,5 +36,3 @@ public class ConflictFlagController {
         return service.getAllFlags();
     }
 }
-
-

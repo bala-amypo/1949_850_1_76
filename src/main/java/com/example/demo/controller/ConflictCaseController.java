@@ -21,20 +21,21 @@ public class ConflictCaseController {
         return service.createCase(conflictCase);
     }
 
+    @PutMapping("/{id}/status")
+    public ConflictCase updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        return service.updateCaseStatus(id, status);
+    }
+
     @GetMapping("/{id}")
     public ConflictCase getById(@PathVariable Long id) {
         return service.getCaseById(id);
     }
 
     @GetMapping("/person/{personId}")
-    public List<ConflictCase> byPerson(@PathVariable Long personId) {
+    public List<ConflictCase> getByPerson(@PathVariable Long personId) {
         return service.getCasesByPerson(personId);
-    }
-
-    @PutMapping("/{id}/status")
-    public ConflictCase updateStatus(@PathVariable Long id,
-                                     @RequestParam String status) {
-        return service.updateCaseStatus(id, status);
     }
 
     @GetMapping
