@@ -62,8 +62,6 @@
             <version>2.5.0</version>
         </dependency>
 
-    
-
         <!-- ================= TESTING ================= -->
 
         <!-- TestNG -->
@@ -82,7 +80,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Spring Boot Test (JUnit EXCLUDED) -->
+        <!-- Spring Boot Test (exclude JUnit) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -105,7 +103,7 @@
     <build>
         <plugins>
 
-            <!-- Java 17 Compiler (FIXES source 5 ERROR) -->
+            <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -120,6 +118,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.2.5</version>
             </plugin>
 
             <!-- TestNG Surefire -->
