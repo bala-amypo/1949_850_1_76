@@ -1,33 +1,50 @@
 package com.example.demo.security;
 
-import java.util.Base64;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+
+import java.security.Key;
+import java.util.Date;
 
 public class JwtTokenProvider {
 
-    private final String secret;
+    private final Key key;
     private final long validityInMs;
 
     public JwtTokenProvider(String secret, long validityInMs) {
-        this.secret = secret;
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.validityInMs = validityInMs;
     }
 
     public String generateToken(UserPrincipal user) {
-        String raw = user.getUsername() + ":" + secret;
-        return Base64.getEncoder().encodeToString(raw.getBytes());
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + validityInMs);
+
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("userId", user.getId())
+                .claim("role", "ROLE_" + user.getUsername())
+                .setIssuedAt(now)
+                .setExpiration(expiry)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public boolean validateToken(String token) {
         try {
-            Base64.getDecoder().decode(token);
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (Exception ex) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
     public String getUsernameFromToken(String token) {
-        String decoded = new String(Base64.getDecoder().decode(token));
-        return decoded.split(":")[0];
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 }
