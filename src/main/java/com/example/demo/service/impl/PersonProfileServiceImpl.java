@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonProfileServiceImpl
-        implements PersonProfileService {
+public class PersonProfileServiceImpl implements PersonProfileService {
 
     private final PersonProfileRepository repository;
 
@@ -24,12 +23,18 @@ public class PersonProfileServiceImpl
     }
 
     @Override
-    public Optional<PersonProfile> findByReferenceId(String referenceId) {
-        return repository.findByReferenceId(referenceId);
+    public PersonProfile getPersonById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Person not found"));
     }
 
     @Override
     public List<PersonProfile> getAllPersons() {
         return repository.findAll();
+    }
+
+    @Override
+    public Optional<PersonProfile> findByReferenceId(String referenceId) {
+        return repository.findByReferenceId(referenceId);
     }
 }

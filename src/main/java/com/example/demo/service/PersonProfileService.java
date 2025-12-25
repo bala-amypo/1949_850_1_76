@@ -9,7 +9,9 @@ public interface PersonProfileService {
 
     PersonProfile createPerson(PersonProfile person);
 
-    Optional<PersonProfile> findByReferenceId(String referenceId);
+    PersonProfile getPersonById(Long id);
 
     List<PersonProfile> getAllPersons();
+
+    Optional<PersonProfile> findByReferenceId(String referenceId);
 }
