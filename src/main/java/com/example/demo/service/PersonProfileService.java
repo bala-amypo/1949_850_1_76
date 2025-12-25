@@ -11,5 +11,11 @@ public interface PersonProfileService {
 
     List<PersonProfile> getAllPersons();
 
+    PersonProfile findByReferenceId(String referenceId);
+
     PersonProfile updateRelationshipDeclared(Long id, boolean declared);
 }
+
+
+
+
