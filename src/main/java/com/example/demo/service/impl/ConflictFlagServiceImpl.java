@@ -23,8 +23,7 @@ public class ConflictFlagServiceImpl implements ConflictFlagService {
 
     @Override
     public ConflictFlag getFlagById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Flag not found"));
+        return repository.findById(id).orElse(null);
     }
 
     @Override

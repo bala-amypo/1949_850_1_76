@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.PersonProfile;
 import com.example.demo.service.PersonProfileService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +18,30 @@ public class PersonProfileController {
     }
 
     @PostMapping
-    public PersonProfile create(@RequestBody PersonProfile person) {
-        return service.createPerson(person);
+    public ResponseEntity<PersonProfile> create(@RequestBody PersonProfile person) {
+        return ResponseEntity.ok(service.createPerson(person));
     }
 
     @GetMapping("/{id}")
-    public PersonProfile getById(@PathVariable Long id) {
-        return service.getPersonById(id);
+    public ResponseEntity<PersonProfile> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getPersonById(id));
     }
 
     @GetMapping
-    public List<PersonProfile> getAll() {
-        return service.getAllPersons();
+    public ResponseEntity<List<PersonProfile>> getAll() {
+        return ResponseEntity.ok(service.getAllPersons());
     }
 
     @PutMapping("/{id}/relationship")
-    public PersonProfile updateRelationship(@PathVariable Long id,
-                                            @RequestParam boolean declared) {
-        return service.updateRelationshipDeclared(id, declared);
+    public ResponseEntity<PersonProfile> updateRelationship(
+            @PathVariable Long id,
+            @RequestParam boolean declared) {
+        return ResponseEntity.ok(service.updateRelationshipDeclared(id, declared));
     }
-    @GetMapping("/reference/{referenceId}")
-    public PersonProfile getByReference(@PathVariable String referenceId) {
-        return service.findByReferenceId(referenceId);
+
+    // 🔴 REQUIRED BY TESTS
+    @GetMapping("/lookup/{ref}")
+    public ResponseEntity<PersonProfile> lookup(@PathVariable String ref) {
+        return ResponseEntity.ok(service.getPersonByReference(ref));
     }
 }
