@@ -1,6 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ApiException;
 import com.example.demo.model.ConflictFlag;
+import com.example.demo.repository.ConflictCaseRepository;
 import com.example.demo.repository.ConflictFlagRepository;
 import com.example.demo.service.ConflictFlagService;
 import org.springframework.stereotype.Service;
@@ -10,28 +12,37 @@ import java.util.List;
 @Service
 public class ConflictFlagServiceImpl implements ConflictFlagService {
 
-    private final ConflictFlagRepository flagRepository;
+    private final ConflictFlagRepository repository;
+    private final ConflictCaseRepository caseRepository;
 
-    // ✅ CORRECT CONSTRUCTOR (only required repo)
-    public ConflictFlagServiceImpl(ConflictFlagRepository flagRepository) {
-        this.flagRepository = flagRepository;
+    public ConflictFlagServiceImpl(
+            ConflictFlagRepository repository,
+            ConflictCaseRepository caseRepository) {
+        this.repository = repository;
+        this.caseRepository = caseRepository;
     }
 
     @Override
-    public ConflictFlag createFlag(ConflictFlag flag) {
-        return flagRepository.save(flag);
+    public ConflictFlag addFlag(ConflictFlag flag) {
+        caseRepository.findById(flag.getCaseId())
+                .orElseThrow(() -> new ApiException("case not found"));
+
+        return repository.save(flag);
     }
 
-    // ✅ THIS WAS MISSING → CAUSED THE ERROR
     @Override
     public ConflictFlag getFlagById(Long id) {
-        return flagRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ConflictFlag not found"));
+        return repository.findById(id)
+                .orElseThrow(() -> new ApiException("flag not found"));
     }
 
-    // ✅ Repository method now exists
     @Override
-    public List<ConflictFlag> getFlagsByConflictCase(Long conflictCaseId) {
-        return flagRepository.findByConflictCaseId(conflictCaseId);
+    public List<ConflictFlag> getFlagsByCase(Long caseId) {
+        return repository.findByCaseId(caseId);
+    }
+
+    @Override
+    public List<ConflictFlag> getAllFlags() {
+        return repository.findAll();
     }
 }
