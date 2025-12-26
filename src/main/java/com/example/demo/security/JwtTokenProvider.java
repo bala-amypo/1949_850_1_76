@@ -3,21 +3,23 @@ package com.example.demo.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+@Component
 public class JwtTokenProvider {
     private final SecretKey secretKey;
     private final long jwtExpirationInMs;
     
-    // Constructor for Spring DI
+    // Constructor for Spring DI (no-arg)
     public JwtTokenProvider() {
         this.secretKey = Keys.hmacShaKeyFor("THIS_IS_A_TEST_32_CHAR_MINIMUM_SECRET_KEY_!!!".getBytes());
         this.jwtExpirationInMs = 3600000L; // 1 hour
     }
     
-    // Constructor for tests (used in IntegrationAndUnitTestSuiteTest)
+    // Constructor for TESTS ONLY (used in IntegrationAndUnitTestSuiteTest)
     public JwtTokenProvider(String secret, long jwtExpirationInMs) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
         this.jwtExpirationInMs = jwtExpirationInMs;
