@@ -16,39 +16,31 @@
     <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
-    <description>Conflict Management Demo</description>
     
     <properties>
         <java.version>17</java.version>
     </properties>
     
     <dependencies>
-        <!-- Spring Boot Starters -->
+        <!-- ALL PREVIOUS DEPENDENCIES SAME -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        
-        <!-- MySQL Connector - EXPLICIT VERSION -->
         <dependency>
-            <groupId>com.mysql</groupId>
+            <groupId>mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.0.33</version>
+            <version>8.4.0</version>
+            <scope>runtime</scope>
         </dependency>
-
-
-        
-        <!-- JWT Dependencies -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -66,8 +58,6 @@
             <version>0.12.6</version>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- Swagger/OpenAPI -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -81,7 +71,7 @@
             <scope>test</scope>
         </dependency>
         
-        <!-- TestNG -->
+        <!-- TestNG - PRIMARY TEST FRAMEWORK -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -95,7 +85,6 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
@@ -109,6 +98,27 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            
+            <!-- FIX: Force TestNG Provider -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-testng</artifactId>
+                        <version>3.2.5</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- TestNG takes precedence over JUnit -->
+                    <testNGVersion>7.10.2</testNGVersion>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
             </plugin>
         </plugins>
     </build>
