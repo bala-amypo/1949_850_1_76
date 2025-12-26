@@ -10,18 +10,15 @@ import java.util.Map;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private Map<String, UserPrincipal> users = new HashMap<>();
-    private long nextId = 1;
     
+    private Map<String, UserPrincipal> users = new HashMap<>();
+
     public UserPrincipal register(String email, String password, String role) {
-        if (users.containsKey(email)) {
-            throw new UsernameNotFoundException("User already exists");
-        }
-        UserPrincipal user = new UserPrincipal(nextId++, email, role);
+        UserPrincipal user = new UserPrincipal(email, role);
         users.put(email, user);
         return user;
     }
-    
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserPrincipal user = users.get(username);

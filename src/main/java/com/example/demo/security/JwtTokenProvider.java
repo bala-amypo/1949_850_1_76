@@ -1,58 +1,52 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
+    
     private final SecretKey secretKey;
-    private final long jwtExpirationInMs;
-    
-    // Constructor for Spring DI (no-arg)
-    public JwtTokenProvider() {
-        this.secretKey = Keys.hmacShaKeyFor("THIS_IS_A_TEST_32_CHAR_MINIMUM_SECRET_KEY_!!!".getBytes());
-        this.jwtExpirationInMs = 3600000L; // 1 hour
+    private final long validityInMilliseconds;
+
+    public JwtTokenProvider(String secret, long validityInMs) {
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.validityInMilliseconds = validityInMs;
     }
-    
-    // Constructor for TESTS ONLY (used in IntegrationAndUnitTestSuiteTest)
-    public JwtTokenProvider(String secret, long jwtExpirationInMs) {
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
-        this.jwtExpirationInMs = jwtExpirationInMs;
-    }
-    
-    public String generateToken(UserPrincipal userPrincipal) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-        
+
+    public String generateToken(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
-                .claim("id", userPrincipal.getId())
-                .claim("role", userPrincipal.getRole())
-                .issuedAt(now)
-                .expiration(expiryDate)
+                .setSubject(userPrincipal.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + validityInMilliseconds))
                 .signWith(secretKey)
                 .compact();
     }
-    
+
     public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .verifyWith(secretKey)
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
-                .getPayload();
+                .getBody();
         return claims.getSubject();
     }
-    
-    public boolean validateToken(String authToken) {
+
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().verifyWith(secretKey).build().parseClaimsJws(authToken);
+            Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
-        } catch (Exception ex) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
