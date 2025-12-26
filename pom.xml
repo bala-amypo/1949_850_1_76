@@ -46,7 +46,7 @@
             <version>0.12.3</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- ✅ CORRECT MySQL Connector - Let Spring Boot manage version -->
+        <!-- ✅ MySQL - Spring Boot manages version -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -57,6 +57,7 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.2.0</version>
         </dependency>
+        <!-- ✅ Test dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -73,10 +74,11 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- ✅ CORRECT Mockito Inline - Let Spring Boot manage version -->
+        <!-- ✅ FIXED: Explicit version for mockito-inline -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
+            <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
