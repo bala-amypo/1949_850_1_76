@@ -8,39 +8,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/engagements")
+@RequestMapping("/api/engagements")
 public class VendorEngagementController {
-
-    private final VendorEngagementService service;
-
-    public VendorEngagementController(VendorEngagementService service) {
-        this.service = service;
+    
+    private final VendorEngagementService engagementService;
+    
+    public VendorEngagementController(VendorEngagementService engagementService) {
+        this.engagementService = engagementService;
     }
-
-    // CREATE
+    
     @PostMapping
-    public ResponseEntity<VendorEngagementRecord> create(
-            @RequestBody VendorEngagementRecord record) {
-        return ResponseEntity.ok(service.addEngagement(record));
+    public ResponseEntity<VendorEngagementRecord> addEngagement(@RequestBody VendorEngagementRecord record) {
+        VendorEngagementRecord saved = engagementService.addEngagement(record);
+        return ResponseEntity.ok(saved);
     }
-
-    // READ by employee
+    
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<List<VendorEngagementRecord>> byEmployee(
-            @PathVariable Long employeeId) {
-        return ResponseEntity.ok(service.getEngagementsByEmployee(employeeId));
+    public ResponseEntity<List<VendorEngagementRecord>> getByEmployee(@PathVariable Long employeeId) {
+        return ResponseEntity.ok(engagementService.getEngagementsByEmployee(employeeId));
     }
-
-    // READ by vendor
+    
     @GetMapping("/vendor/{vendorId}")
-    public ResponseEntity<List<VendorEngagementRecord>> byVendor(
-            @PathVariable Long vendorId) {
-        return ResponseEntity.ok(service.getEngagementsByVendor(vendorId));
+    public ResponseEntity<List<VendorEngagementRecord>> getByVendor(@PathVariable Long vendorId) {
+        return ResponseEntity.ok(engagementService.getEngagementsByVendor(vendorId));
     }
-
-    // READ all
+    
     @GetMapping
     public ResponseEntity<List<VendorEngagementRecord>> getAll() {
-        return ResponseEntity.ok(service.getAllEngagements());
+        return ResponseEntity.ok(engagementService.getAllEngagements());
     }
 }

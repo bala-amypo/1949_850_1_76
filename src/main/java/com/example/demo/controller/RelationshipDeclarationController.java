@@ -8,33 +8,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/relationships")
+@RequestMapping("/api/relationships")
 public class RelationshipDeclarationController {
-
-    private final RelationshipDeclarationService service;
-
-    public RelationshipDeclarationController(RelationshipDeclarationService service) {
-        this.service = service;
+    
+    private final RelationshipDeclarationService relationshipService;
+    
+    public RelationshipDeclarationController(RelationshipDeclarationService relationshipService) {
+        this.relationshipService = relationshipService;
     }
-
-    // CREATE
+    
     @PostMapping
-    public ResponseEntity<RelationshipDeclaration> declare(
-            @RequestBody RelationshipDeclaration declaration) {
-        return ResponseEntity.ok(service.declareRelationship(declaration));
+    public ResponseEntity<RelationshipDeclaration> declare(@RequestBody RelationshipDeclaration declaration) {
+        RelationshipDeclaration saved = relationshipService.declareRelationship(declaration);
+        return ResponseEntity.ok(saved);
     }
-
-    // VERIFY
-    @PutMapping("/{id}/verify/{value}")
-    public ResponseEntity<RelationshipDeclaration> verify(
-            @PathVariable Long id,
-            @PathVariable boolean value) {
-        return ResponseEntity.ok(service.verifyDeclaration(id, value));
+    
+    @PutMapping("/{id}/verify")
+    public ResponseEntity<RelationshipDeclaration> verify(@PathVariable Long id, @RequestBody boolean verified) {
+        try {
+            RelationshipDeclaration updated = relationshipService.verifyDeclaration(id, verified);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
-
-    // READ all
+    
     @GetMapping
     public ResponseEntity<List<RelationshipDeclaration>> getAll() {
-        return ResponseEntity.ok(service.getAllDeclarations());
+        return ResponseEntity.ok(relationshipService.getAllDeclarations());
     }
 }
