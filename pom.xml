@@ -43,9 +43,9 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.4.0</version>
-            <scope>runtime</scope>
+            <version>8.0.33</version>
         </dependency>
+
         
         <!-- JWT Dependencies -->
         <dependency>
