@@ -8,38 +8,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cases")
+@RequestMapping("/api/conflict-cases")
 public class ConflictCaseController {
     
     private final ConflictCaseService caseService;
-    
+
     public ConflictCaseController(ConflictCaseService caseService) {
         this.caseService = caseService;
     }
-    
+
     @PostMapping
     public ResponseEntity<ConflictCase> createCase(@RequestBody ConflictCase conflictCase) {
         ConflictCase saved = caseService.createCase(conflictCase);
         return ResponseEntity.ok(saved);
     }
-    
+
     @PutMapping("/{id}/status")
     public ResponseEntity<ConflictCase> updateStatus(@PathVariable Long id, @RequestParam String status) {
-        try {
-            ConflictCase updated = caseService.updateCaseStatus(id, status);
-            return ResponseEntity.ok(updated);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        ConflictCase updated = caseService.updateCaseStatus(id, status);
+        return ResponseEntity.ok(updated);
     }
-    
+
     @GetMapping("/person/{personId}")
     public ResponseEntity<List<ConflictCase>> getByPerson(@PathVariable Long personId) {
-        return ResponseEntity.ok(caseService.getCasesByPerson(personId));
+        List<ConflictCase> cases = caseService.getCasesByPerson(personId);
+        return ResponseEntity.ok(cases);
     }
-    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ConflictCase> getById(@PathVariable Long id) {
+        ConflictCase caseObj = caseService.getCaseById(id);
+        return ResponseEntity.ok(caseObj);
+    }
+
     @GetMapping
     public ResponseEntity<List<ConflictCase>> getAll() {
-        return ResponseEntity.ok(caseService.getAllCases());
+        List<ConflictCase> cases = caseService.getAllCases();
+        return ResponseEntity.ok(cases);
     }
 }

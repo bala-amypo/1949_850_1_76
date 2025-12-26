@@ -12,29 +12,26 @@ import java.util.List;
 public class RelationshipDeclarationController {
     
     private final RelationshipDeclarationService relationshipService;
-    
+
     public RelationshipDeclarationController(RelationshipDeclarationService relationshipService) {
         this.relationshipService = relationshipService;
     }
-    
+
     @PostMapping
     public ResponseEntity<RelationshipDeclaration> declare(@RequestBody RelationshipDeclaration declaration) {
         RelationshipDeclaration saved = relationshipService.declareRelationship(declaration);
         return ResponseEntity.ok(saved);
     }
-    
+
     @PutMapping("/{id}/verify")
     public ResponseEntity<RelationshipDeclaration> verify(@PathVariable Long id, @RequestBody boolean verified) {
-        try {
-            RelationshipDeclaration updated = relationshipService.verifyDeclaration(id, verified);
-            return ResponseEntity.ok(updated);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        RelationshipDeclaration updated = relationshipService.verifyDeclaration(id, verified);
+        return ResponseEntity.ok(updated);
     }
-    
+
     @GetMapping
     public ResponseEntity<List<RelationshipDeclaration>> getAll() {
-        return ResponseEntity.ok(relationshipService.getAllDeclarations());
+        List<RelationshipDeclaration> declarations = relationshipService.getAllDeclarations();
+        return ResponseEntity.ok(declarations);
     }
 }
