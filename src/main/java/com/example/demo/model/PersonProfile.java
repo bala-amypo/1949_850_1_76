@@ -1,41 +1,32 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "person_profile")
-public class PersonProfile implements Serializable {
+@Table(name = "person_profiles")
+public class PersonProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String email;
+    private String personType;
     private String referenceId;
     private String fullName;
-    private String personType;
+    private String email;
     private String department;
-    
-    @Column(name = "relationship_declared")
     private Boolean relationshipDeclared = false;
-    
+    private LocalDateTime createdAt = LocalDateTime.now();
+
     // Constructors
     public PersonProfile() {}
-    
-    public PersonProfile(Long id, String email, String referenceId, String fullName, String personType) {
-        this.id = id;
-        this.email = email;
-        this.referenceId = referenceId;
-        this.fullName = fullName;
-        this.personType = personType;
-    }
-    
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getPersonType() { return personType; }
+    public void setPersonType(String personType) { this.personType = personType; }
     
     public String getReferenceId() { return referenceId; }
     public void setReferenceId(String referenceId) { this.referenceId = referenceId; }
@@ -43,14 +34,15 @@ public class PersonProfile implements Serializable {
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
     
-    public String getPersonType() { return personType; }
-    public void setPersonType(String personType) { this.personType = personType; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
     
     public String getDepartment() { return department; }
     public void setDepartment(String department) { this.department = department; }
     
     public Boolean getRelationshipDeclared() { return relationshipDeclared; }
-    public void setRelationshipDeclared(Boolean relationshipDeclared) { 
-        this.relationshipDeclared = relationshipDeclared; 
-    }
+    public void setRelationshipDeclared(Boolean relationshipDeclared) { this.relationshipDeclared = relationshipDeclared; }
+    
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

@@ -1,29 +1,24 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "relationship_declaration")
 public class RelationshipDeclaration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "person_id")
     private Long personId;
-    
-    @Column(name = "related_person_name")
     private String relatedPersonName;
-    
-    @Column(name = "relationship_type")
     private String relationshipType;
-    
-    @Column(name = "is_verified")
+    private String description;
+    private LocalDateTime declaredAt = LocalDateTime.now();
     private Boolean isVerified = false;
-    
+
     // Constructors
     public RelationshipDeclaration() {}
-    
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -36,6 +31,12 @@ public class RelationshipDeclaration {
     
     public String getRelationshipType() { return relationshipType; }
     public void setRelationshipType(String relationshipType) { this.relationshipType = relationshipType; }
+    
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    
+    public LocalDateTime getDeclaredAt() { return declaredAt; }
+    public void setDeclaredAt(LocalDateTime declaredAt) { this.declaredAt = declaredAt; }
     
     public Boolean getIsVerified() { return isVerified; }
     public void setIsVerified(Boolean isVerified) { this.isVerified = isVerified; }
