@@ -49,4 +49,3 @@ public class ConflictCaseController {
         return ResponseEntity.ok(cases);
     }
 }
-mvn -Dtest=IntegrationAndUnitTestSuiteTest test
