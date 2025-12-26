@@ -43,9 +43,10 @@ public class JwtTokenProvider {
     }
 
     public String getUsernameFromToken(String token) {
-        // ✅ CORRECT jjwt 0.12.3 API - NO parserBuilder()
-        Claims claims = Jwts.parser()
+        // ✅ CORRECT: parserBuilder() -> build() -> parseClaimsJws()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
@@ -53,9 +54,10 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            // ✅ CORRECT jjwt 0.12.3 API - NO parserBuilder()
-            Jwts.parser()
+            // ✅ CORRECT: parserBuilder() -> build() -> parseClaimsJws()
+            Jwts.parserBuilder()
                     .setSigningKey(secretKey)
+                    .build()
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
