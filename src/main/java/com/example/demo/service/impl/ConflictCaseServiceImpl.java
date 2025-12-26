@@ -3,9 +3,11 @@ package com.example.demo.service.impl;
 import com.example.demo.exception.ApiException;
 import com.example.demo.model.ConflictCase;
 import com.example.demo.repository.ConflictCaseRepository;
+import com.example.demo.repository.ConflictFlagRepository;
 import com.example.demo.service.ConflictCaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +15,12 @@ import java.util.Optional;
 @Transactional
 public class ConflictCaseServiceImpl implements ConflictCaseService {
     private final ConflictCaseRepository caseRepo;
+    private final ConflictFlagRepository flagRepo; // ADDED for test compatibility
     
-    public ConflictCaseServiceImpl(ConflictCaseRepository caseRepo) {
+    // EXACTLY MATCHES test case line 64
+    public ConflictCaseServiceImpl(ConflictCaseRepository caseRepo, ConflictFlagRepository flagRepo) {
         this.caseRepo = caseRepo;
+        this.flagRepo = flagRepo;
     }
     
     @Override
