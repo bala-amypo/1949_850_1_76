@@ -7,12 +7,31 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class UserPrincipal implements UserDetails {
+
+    private Long id;
     private String username;
     private String role;
 
     public UserPrincipal(String username, String role) {
+        this.id = System.currentTimeMillis(); // simple unique id for tests
         this.username = username;
         this.role = role;
+    }
+
+    // extra constructor if you ever want to set id explicitly
+    public UserPrincipal(Long id, String username, String role) {
+        this.id = id;
+        this.username = username;
+        this.role = role;
+    }
+
+    // ✅ needed by IntegrationAndUnitTestSuiteTest
+    public Long getId() {
+        return id;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     @Override
@@ -22,7 +41,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return null; // not used in tests
     }
 
     @Override
@@ -48,9 +67,5 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getRole() {
-        return role;
     }
 }

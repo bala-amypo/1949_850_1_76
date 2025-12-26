@@ -8,10 +8,11 @@ import com.example.demo.service.ConflictCaseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConflictCaseServiceImpl implements ConflictCaseService {
-    
+
     private final ConflictCaseRepository caseRepo;
     private final ConflictFlagRepository flagRepo;
 
@@ -31,7 +32,7 @@ public class ConflictCaseServiceImpl implements ConflictCaseService {
     @Override
     public ConflictCase updateCaseStatus(Long caseId, String status) {
         ConflictCase conflictCase = caseRepo.findById(caseId)
-                .orElseThrow(() -> new ApiException("Conflict case not found"));
+                .orElseThrow(() -> new ApiException("case not found"));
         conflictCase.setStatus(status);
         return caseRepo.save(conflictCase);
     }
@@ -41,10 +42,10 @@ public class ConflictCaseServiceImpl implements ConflictCaseService {
         return caseRepo.findByPrimaryPersonIdOrSecondaryPersonId(personId, personId);
     }
 
+    // ✅ now returns Optional; used in tests where empty is expected
     @Override
-    public ConflictCase getCaseById(Long id) {
-        return caseRepo.findById(id)
-                .orElseThrow(() -> new ApiException("Conflict case not found"));
+    public Optional<ConflictCase> getCaseById(Long id) {
+        return caseRepo.findById(id);
     }
 
     @Override

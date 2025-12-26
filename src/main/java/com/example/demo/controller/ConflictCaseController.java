@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ApiException;
 import com.example.demo.model.ConflictCase;
 import com.example.demo.service.ConflictCaseService;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/conflict-cases")
 public class ConflictCaseController {
-    
+
     private final ConflictCaseService caseService;
 
     public ConflictCaseController(ConflictCaseService caseService) {
@@ -37,8 +38,9 @@ public class ConflictCaseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ConflictCase> getById(@PathVariable Long id) {
-        ConflictCase caseObj = caseService.getCaseById(id);
-        return ResponseEntity.ok(caseObj);
+        ConflictCase c = caseService.getCaseById(id)
+                .orElseThrow(() -> new ApiException("case not found"));
+        return ResponseEntity.ok(c);
     }
 
     @GetMapping
