@@ -7,45 +7,41 @@ import com.example.demo.repository.PersonProfileRepository;
 import com.example.demo.repository.RelationshipDeclarationRepository;
 import com.example.demo.service.RelationshipDeclarationService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
-@Transactional
 public class RelationshipDeclarationServiceImpl implements RelationshipDeclarationService {
+    
     private final RelationshipDeclarationRepository relationshipRepo;
     private final PersonProfileRepository personRepo;
-    
+
     public RelationshipDeclarationServiceImpl(RelationshipDeclarationRepository relationshipRepo, 
                                             PersonProfileRepository personRepo) {
         this.relationshipRepo = relationshipRepo;
         this.personRepo = personRepo;
     }
-    
+
     @Override
     public RelationshipDeclaration declareRelationship(RelationshipDeclaration declaration) {
         if (declaration.getPersonId() == null) {
             throw new ApiException("Person ID is required");
         }
-        
-        personRepo.findById(declaration.getPersonId())
+
+        PersonProfile person = personRepo.findById(declaration.getPersonId())
                 .orElseThrow(() -> new ApiException("Person not found"));
-        
-        PersonProfile person = personRepo.findById(declaration.getPersonId()).get();
-        person.setRelationshipDeclared(true);
-        personRepo.save(person);
-        
+
         return relationshipRepo.save(declaration);
     }
-    
+
     @Override
-    public RelationshipDeclaration verifyDeclaration(Long id, boolean verified) {
-        RelationshipDeclaration declaration = relationshipRepo.findById(id)
+    public RelationshipDeclaration verifyDeclaration(Long declarationId, boolean verified) {
+        RelationshipDeclaration declaration = relationshipRepo.findById(declarationId)
                 .orElseThrow(() -> new ApiException("Relationship declaration not found"));
         declaration.setIsVerified(verified);
         return relationshipRepo.save(declaration);
     }
-    
+
     @Override
     public List<RelationshipDeclaration> getAllDeclarations() {
         return relationshipRepo.findAll();

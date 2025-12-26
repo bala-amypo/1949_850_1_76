@@ -6,23 +6,20 @@ import com.example.demo.repository.ConflictCaseRepository;
 import com.example.demo.repository.ConflictFlagRepository;
 import com.example.demo.service.ConflictCaseService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@Transactional
 public class ConflictCaseServiceImpl implements ConflictCaseService {
-    private final ConflictCaseRepository caseRepo;
-    private final ConflictFlagRepository flagRepo; // ADDED for test compatibility
     
-    // EXACTLY MATCHES test case line 64
+    private final ConflictCaseRepository caseRepo;
+    private final ConflictFlagRepository flagRepo;
+
     public ConflictCaseServiceImpl(ConflictCaseRepository caseRepo, ConflictFlagRepository flagRepo) {
         this.caseRepo = caseRepo;
         this.flagRepo = flagRepo;
     }
-    
+
     @Override
     public ConflictCase createCase(ConflictCase conflictCase) {
         if (conflictCase.getStatus() == null) {
@@ -30,27 +27,28 @@ public class ConflictCaseServiceImpl implements ConflictCaseService {
         }
         return caseRepo.save(conflictCase);
     }
-    
+
     @Override
-    public ConflictCase updateCaseStatus(Long id, String status) {
-        ConflictCase conflictCase = caseRepo.findById(id)
+    public ConflictCase updateCaseStatus(Long caseId, String status) {
+        ConflictCase conflictCase = caseRepo.findById(caseId)
                 .orElseThrow(() -> new ApiException("Conflict case not found"));
         conflictCase.setStatus(status);
         return caseRepo.save(conflictCase);
     }
-    
-    @Override
-    public List<ConflictCase> getAllCases() {
-        return caseRepo.findAll();
-    }
-    
+
     @Override
     public List<ConflictCase> getCasesByPerson(Long personId) {
         return caseRepo.findByPrimaryPersonIdOrSecondaryPersonId(personId, personId);
     }
-    
+
     @Override
-    public Optional<ConflictCase> getCaseById(Long id) {
-        return caseRepo.findById(id);
+    public ConflictCase getCaseById(Long id) {
+        return caseRepo.findById(id)
+                .orElseThrow(() -> new ApiException("Conflict case not found"));
+    }
+
+    @Override
+    public List<ConflictCase> getAllCases() {
+        return caseRepo.findAll();
     }
 }

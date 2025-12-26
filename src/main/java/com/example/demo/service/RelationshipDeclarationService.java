@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface RelationshipDeclarationService {
     RelationshipDeclaration declareRelationship(RelationshipDeclaration declaration);
-    RelationshipDeclaration verifyDeclaration(Long id, boolean verified);
+    RelationshipDeclaration verifyDeclaration(Long declarationId, boolean verified);
     List<RelationshipDeclaration> getAllDeclarations();
 }
